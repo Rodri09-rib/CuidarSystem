@@ -13,4 +13,8 @@ public record UserRequestDto(
         @NotBlank(message = "Password is required")
         String password
 ) {
+        @Override
+        public String toString() {
+                return "UserRequestDTO [email = " + email + " password = xxx]";
+        }
 }

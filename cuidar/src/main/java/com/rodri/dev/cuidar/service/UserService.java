@@ -4,6 +4,7 @@ import com.rodri.dev.cuidar.dto.UserRequestDto;
 import com.rodri.dev.cuidar.entity.User;
 import com.rodri.dev.cuidar.exception.ResourceNotFoundException;
 import com.rodri.dev.cuidar.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,16 +13,21 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+
     }
 
     public User createUser(UserRequestDto userRequestDto) {
        User newUser = new User();
+       String criptPass = passwordEncoder.encode(userRequestDto.password());
        newUser.setName(userRequestDto.name());
        newUser.setEmail(userRequestDto.email());
-       newUser.setPassword(userRequestDto.password());
+       newUser.setPassword(criptPass);
 
        return userRepository.save(newUser);
     }
