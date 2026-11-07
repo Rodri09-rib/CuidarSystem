@@ -15,6 +15,6 @@ public record UserRequestDto(
 ) {
         @Override
         public String toString() {
-                return "UserRequestDTO [email = " + email + " password = xxx]";
+                return "UserRequestDto[email = " + email + " password = xxx]";
         }
 }

@@ -15,19 +15,20 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+
 
     }
 
     public User createUser(UserRequestDto userRequestDto) {
        User newUser = new User();
-       String criptPass = passwordEncoder.encode(userRequestDto.password());
+       String passCript = passwordEncoder.encode(userRequestDto.password());
        newUser.setName(userRequestDto.name());
        newUser.setEmail(userRequestDto.email());
-       newUser.setPassword(criptPass);
+       newUser.setPassword(passCript);
+
 
        return userRepository.save(newUser);
     }
@@ -45,9 +46,10 @@ public class UserService {
         User updateUser = userRepository.findById(id).orElseThrow(()
                 -> new ResourceNotFoundException("Usuário não encontrado"));
 
+        String newPassCript = passwordEncoder.encode(userRequestDto.password());
         updateUser.setName(userRequestDto.name());
         updateUser.setEmail(userRequestDto.email());
-        updateUser.setPassword(userRequestDto.password());
+        updateUser.setPassword(newPassCript);
 
         return userRepository.save(updateUser);
     }
