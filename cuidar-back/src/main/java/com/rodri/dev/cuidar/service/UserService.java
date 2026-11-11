@@ -1,9 +1,12 @@
 package com.rodri.dev.cuidar.service;
 
+import com.rodri.dev.cuidar.dto.LoginRequestDto;
+import com.rodri.dev.cuidar.dto.UserDto;
 import com.rodri.dev.cuidar.dto.UserRequestDto;
 import com.rodri.dev.cuidar.entity.User;
 import com.rodri.dev.cuidar.exception.ResourceNotFoundException;
 import com.rodri.dev.cuidar.repository.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +35,21 @@ public class UserService {
 
        return userRepository.save(newUser);
     }
+
+    public UserDto login(LoginRequestDto loginRequestDto) {
+        User user = userRepository.findByEmail(loginRequestDto.email())
+                .orElseThrow(() -> new ResourceNotFoundException("Email not found"));
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        if(encoder.matches(loginRequestDto.password(), user.getPassword())) {
+            return new UserDto(user);
+        }
+         else {
+             throw new ResourceNotFoundException("Incorrect password");
+        }
+    }
+
 
     public List<User> findAll() {
         return userRepository.findAll();

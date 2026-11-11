@@ -1,5 +1,6 @@
 package com.rodri.dev.cuidar.controller;
 
+import com.rodri.dev.cuidar.dto.LoginRequestDto;
 import com.rodri.dev.cuidar.dto.UserDto;
 import com.rodri.dev.cuidar.dto.UserRequestDto;
 import com.rodri.dev.cuidar.entity.User;
@@ -26,6 +27,12 @@ public class UserController {
     public ResponseEntity<UserDto> createUser(@RequestBody @Valid UserRequestDto userRequestDto) {
         User newUser = userService.createUser(userRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(new UserDto(newUser));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UserDto> userLogin(@RequestBody LoginRequestDto loginRequestDto) {
+        UserDto user = userService.login(loginRequestDto);
+        return ResponseEntity.ok(user);
     }
 
     @GetMapping

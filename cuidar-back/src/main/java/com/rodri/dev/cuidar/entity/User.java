@@ -1,6 +1,7 @@
 package com.rodri.dev.cuidar.entity;
 
 import jakarta.persistence.*;
+import org.jspecify.annotations.Nullable;
 import org.springframework.context.annotation.EnableLoadTimeWeaving;
 
 @Entity
@@ -45,5 +46,9 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public @Nullable String getPassword() {
+        return password;
     }
 }
