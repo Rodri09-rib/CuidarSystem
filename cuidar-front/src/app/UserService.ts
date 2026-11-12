@@ -13,6 +13,10 @@ export class UserService {
     return this.http.post(this.apiUrl, user);
   }
 
+  login(credentials: LoginRequestDto): Observable<any> {
+    return this.http.post(this.apiUrl + '/login', credentials);
+  }
+
 }
 
 export interface UserRequestDto {
@@ -20,3 +24,10 @@ export interface UserRequestDto {
   email:String;
   password:String;
 }
+
+export interface LoginRequestDto {
+  email:String;
+    password:String;
+}
+
+

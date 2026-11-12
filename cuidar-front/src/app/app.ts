@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {UserRequestDto, UserService} from './UserService';
+import {LoginRequestDto, UserRequestDto, UserService} from './UserService';
 import {RouterModule} from '@angular/router';
 
 
@@ -22,6 +22,11 @@ export class App {
     password: ''
   };
 
+  loginData: LoginRequestDto = {
+    email: '',
+    password: ''
+  };
+
   constructor(private userService : UserService) {}
 
   changeMode(mode: 'login' | "register") {
@@ -37,6 +42,19 @@ export class App {
       error: (erro) => {
         console.error('Error trying to create account!');
         alert('Error trying to register account!');
+      }
+    });
+  }
+
+  loginUser() {
+    this.userService.login(this.loginData).subscribe({
+      next: (answer) => {
+        alert(('Login success!'));
+        console.log('Date receive', answer);
+      },
+      error : (erro) => {
+        console.error('Error trying to make login: ', erro);
+        alert('E-mail or password incorrect.');
       }
     });
   }

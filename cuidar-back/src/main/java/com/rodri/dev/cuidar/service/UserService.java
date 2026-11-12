@@ -32,13 +32,12 @@ public class UserService {
        newUser.setEmail(userRequestDto.email());
        newUser.setPassword(passCript);
 
-
        return userRepository.save(newUser);
     }
 
     public UserDto login(LoginRequestDto loginRequestDto) {
         User user = userRepository.findByEmail(loginRequestDto.email())
-                .orElseThrow(() -> new ResourceNotFoundException("Email not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Email não encontrado"));
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -46,10 +45,9 @@ public class UserService {
             return new UserDto(user);
         }
          else {
-             throw new ResourceNotFoundException("Incorrect password");
+             throw new ResourceNotFoundException("Senha incorreta");
         }
     }
-
 
     public List<User> findAll() {
         return userRepository.findAll();
