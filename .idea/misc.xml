@@ -5,6 +5,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/cuidar/pom.xml" />
+        <option value="$PROJECT_DIR$/cuidar-back/pom.xml" />
       </list>
     </option>
   </component>

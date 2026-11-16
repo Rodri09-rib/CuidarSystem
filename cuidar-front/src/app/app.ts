@@ -6,7 +6,7 @@ import {RouterModule} from '@angular/router';
 
 
 @Component({
-  imports:[CommonModule, FormsModule,RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   selector: 'app-root',
   styleUrl: './app.scss',
   templateUrl: './app.html',
@@ -16,48 +16,51 @@ export class App {
 
   currentMode : 'login' | 'register' = 'login';
 
+  constructor(private userService : UserService) {}
+
   newUser : UserRequestDto = {
     name: '',
     email: '',
     password: ''
-  };
+  }
 
-  loginData: LoginRequestDto = {
+  loginData : LoginRequestDto = {
     email: '',
     password: ''
-  };
+  }
 
-  constructor(private userService : UserService) {}
-
-  changeMode(mode: 'login' | "register") {
+  changeMode(mode: 'login' | 'register') {
     this.currentMode = mode;
+  }
+
+  loginUser() {
+    this.userService.login(this.newUser).subscribe({
+      next: (answer) => {
+        alert('Login success!');
+        console.log('Login success!');
+      },
+      error: (erro) => {
+        console.error('Email or password incorrect! ', erro);
+        alert('Email or password incorrect!');
+      }
+    });
   }
 
   registerUser() {
     this.userService.createUser(this.newUser).subscribe({
-      next: (answer) => {
-        alert('Account created!');
+      next : (answer) => {
+        alert('User created!');
         this.changeMode('login');
       },
-      error: (erro) => {
-        console.error('Error trying to create account!');
-        alert('Error trying to register account!');
+      error : (erro) => {
+        console.error('Error trying to register user!', erro);
+        alert('Error trying to register user');
       }
     });
   }
 
-  loginUser() {
-    this.userService.login(this.loginData).subscribe({
-      next: (answer) => {
-        alert(('Login success!'));
-        console.log('Date receive', answer);
-      },
-      error : (erro) => {
-        console.error('Error trying to make login: ', erro);
-        alert('E-mail or password incorrect.');
-      }
-    });
-  }
 }
+
+
 
 

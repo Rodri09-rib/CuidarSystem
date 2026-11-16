@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 @Injectable({providedIn : 'root'})
@@ -7,27 +7,30 @@ export class UserService {
 
   private apiUrl: string = 'http://localhost:8080/user';
 
-  constructor(private http : HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   createUser(user : UserRequestDto): Observable<any> {
     return this.http.post(this.apiUrl, user);
   }
 
-  login(credentials: LoginRequestDto): Observable<any> {
+  login(credentials : LoginRequestDto): Observable<any> {
     return this.http.post(this.apiUrl + '/login', credentials);
   }
-
 }
 
-export interface UserRequestDto {
-  name:String;
-  email:String;
-  password:String;
+
+  export interface UserRequestDto {
+    name : string,
+    email : string,
+    password : string
 }
 
-export interface LoginRequestDto {
-  email:String;
-    password:String;
-}
+ export  interface LoginRequestDto {
+  email : string,
+   password : string
+ }
+
+
 
 

@@ -17,12 +17,12 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final TokenService tokenService;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, TokenService tokenService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-
-
+        this.tokenService = tokenService;
     }
 
     public User createUser(UserRequestDto userRequestDto) {
@@ -42,7 +42,10 @@ public class UserService {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
         if(encoder.matches(loginRequestDto.password(), user.getPassword())) {
-            return new UserDto(user);
+
+            String token = tokenService.generateToken(user);
+
+            return new UserDto(user, token);
         }
          else {
              throw new ResourceNotFoundException("Senha incorreta");
